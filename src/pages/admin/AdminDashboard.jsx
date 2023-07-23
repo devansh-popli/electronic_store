@@ -18,7 +18,7 @@ export const AdminDashboard = () => {
               <Col md={{ span: 2 }}>
                 <SideMenu/>
               </Col>
-              <Col md={9} className="ps-2">
+              <Col md={10} className="ps-2">
                 <Outlet />
               </Col>
             </Row>
