@@ -34,23 +34,24 @@ export const CartSideBar = ({ showCartSideBar, showCart }) => {
               height: "100vh",
               padding: "0px 20px",
               top: "0px",
-              translate: "0%",
+              width: "0",
               zIndex: 10,
               overflowX: "hidden",
-           
+              visibility: "hidden", // Hide the sidebar content when width is 0
+              // transition: "width 1s, visibility 0s 1s", // Apply transition to width and delay visibility transition
             }
           : {
               background: "RGB(55, 65, 81)",
               position: "absolute",
               right: "0",
               height: "100vh",
-              padding: "0px 100px",
+              padding: "0px 10px",
               top: "0px",
-              translate: "100%",
-              transition: "0.3s",
+              // width: "300px",
               zIndex: 10,
-          
-              // display:"none"
+              overflowX: "hidden",
+              visibility: "visible", // Show the sidebar content when width is not 0
+              transition: "0.3s", // Apply transition to width
             }
       }
     >
