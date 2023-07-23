@@ -26,7 +26,7 @@ export const CartSideBar = ({ showCartSideBar, showCart }) => {
       ref={ref}
       className="py-5  bg-secondary sidebar"
       style={
-        showCart
+        !showCart
           ? {
               background: "RGB(55, 65, 81)",
               position: "absolute",
