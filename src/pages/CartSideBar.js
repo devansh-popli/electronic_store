@@ -142,6 +142,7 @@ export const CartSideBar = ({ showCartSideBar, showCart }) => {
           if (!isLogin) {
             localStorage.setItem("redirectTo", "/users/orders");
           }
+          toggleCart();
           navigate("/users/orders");
           // navigateToOrders;
         }}
