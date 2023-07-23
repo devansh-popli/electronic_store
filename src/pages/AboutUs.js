@@ -3,14 +3,14 @@ import { Container, Row, Col, Image } from 'react-bootstrap';
 
 const AboutUs = () => {
   return (
-    <section className="about-section">
-      <Container>
+    // <section className="about-section">
+      <Container className='mt-5'>
         <Row>
           <Col md={5} className='d-flex align-items-center my-2'>
             <Image src={"https://source.unsplash.com/random?agriculture"} style={{height:"320px",width:"100%",objectFit:"contain"}} alt="About Us" fluid />
           </Col>
           <Col md={6}>
-            <div className=" about-content d-flex flex-column justify-content-center">
+            <div className="mt-3 about-content d-flex flex-column justify-content-center">
               <h2>About Agro Service Center</h2>
               <p>
                 Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nullam luctus ante in elit accumsan
@@ -31,7 +31,7 @@ const AboutUs = () => {
           </Col>
         </Row>
       </Container>
-    </section>
+    // </section>
   );
 };
 
