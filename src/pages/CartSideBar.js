@@ -8,19 +8,21 @@ import { Button, Col, Container, Row } from "react-bootstrap";
 import { getProductImageUrl } from "../services/HelperService";
 import { Link, useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
+import { UserContext } from "../context/UserContext";
 
 export const CartSideBar = ({ showCartSideBar, showCart }) => {
   const { cart, setCart, addItem, removeItemFromCart, clearCart } =
     useContext(CartContext);
+    const {isLogin}=useContext(UserContext)
   const ref = useRef();
-  const navigate=useNavigate()
+  const navigate = useNavigate();
   const toggleCart = () => {
     showCartSideBar(false);
   };
-  const navigateToOrders=()=>{
-    toggleCart()
-    navigate("/users/orders")
-  }
+  const navigateToOrders = () => {
+    toggleCart();
+    navigate("/users/orders");
+  };
   return (
     <div
       ref={ref}
@@ -97,15 +99,19 @@ export const CartSideBar = ({ showCartSideBar, showCart }) => {
                             onClick={() => {
                               item?.quantity > 1
                                 ? addItem(item?.product, -1)
-                                : removeItemFromCart(item.cartItemId,item.product.productId);
+                                : removeItemFromCart(
+                                    item.cartItemId,
+                                    item.product.productId
+                                  );
                             }}
                             className="mx-1 h4  plusminuscart"
                           />
                           <div className="mb-2">{item?.quantity}</div>
                           <AiFillPlusCircle
                             onClick={() => {
-                              item?.quantity < item?.product.quantity?
-                                addItem(item?.product, 1):toast.info("No More Quantity in Stock");
+                              item?.quantity < item?.product.quantity
+                                ? addItem(item?.product, 1)
+                                : toast.info("No More Quantity in Stock");
                             }}
                             className="mx-1 h4  plusminuscart"
                           />
@@ -129,7 +135,17 @@ export const CartSideBar = ({ showCartSideBar, showCart }) => {
           return accumulator + item.price;
         }, 0)}
       </div>
-      <Button variant="success" size="sm" onClick={navigateToOrders}>
+      <Button
+        variant="success"
+        size="sm"
+        onClick={() => {
+          if (!isLogin) {
+            localStorage.setItem("redirectTo", "/users/orders");
+          }
+          navigate("/users/orders");
+          // navigateToOrders;
+        }}
+      >
         <BsFillBagCheckFill className="mb-1 mx-1" /> Checkout
       </Button>
       <Button onClick={clearCart} variant="danger" size="sm" className="mx-1">
