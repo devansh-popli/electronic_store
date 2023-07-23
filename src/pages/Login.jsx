@@ -1,5 +1,6 @@
 import React, { useContext, useState } from "react";
 import { Base } from "../components/Base";
+import { GoogleLogin } from "@react-oauth/google";
 import {
   Button,
   Card,
@@ -11,11 +12,11 @@ import {
   Spinner,
 } from "react-bootstrap";
 import { Link, useNavigate } from "react-router-dom";
-import { loginUser } from "../services/UserService";
+import { loginUser, loginUserByGoogle } from "../services/UserService";
 import { toast } from "react-toastify";
 import { UserContext } from "../context/UserContext";
 import { isAdminUser } from "../auth/HelperAuth";
-
+import { OldSocialLogin as SocialLogin } from "react-social-login";
 export const Login = () => {
   let userContext = useContext(UserContext);
   let redirect = useNavigate();
@@ -68,7 +69,13 @@ export const Login = () => {
         setLoading(false);
       });
   };
+  const handleSocialLogin = (user) => {
+    console.log(user);
+  };
 
+  const handleSocialLoginFailure = (err) => {
+    console.error(err);
+  };
   const clearFields = () => {
     setLoginData({
       email: "",
@@ -114,14 +121,38 @@ export const Login = () => {
                       onChange={(event) => setLoginInfo(event)}
                     />
                   </Form.Group>
-                  <Container className="text-center">
-                    <p>
-                      Forgot Password? <Link to={"/"}>click here</Link>
-                    </p>
-                    <p>
-                      Not Registered? <Link to={"/register"}>click here</Link>
-                    </p>
+
+                  <Container className="w-25 d-flex justify-content-center">
+                    <GoogleLogin
+                      type="standard"
+                      shape="square"
+                      onSuccess={(credentialResponse) => {
+                        console.log(credentialResponse);
+                        loginUserByGoogle({
+                          idToken: credentialResponse.credential,
+                        })
+                          .then((response) => {
+                            // console.log(response, "loginwith google");
+                            userContext.doLogin(response);
+                            const redirectTo =
+                              localStorage.getItem("redirectTo");
+                            if (redirectTo) {
+                              localStorage.removeItem("redirectTo");
+                              redirect(redirectTo);
+                            } else if (isAdminUser()) {
+                              redirect("/admin/home");
+                            } else redirect("/");
+                          })
+                          .catch((error) => {
+                            console.log(error);
+                          });
+                      }}
+                      onError={() => {
+                        console.log("Login Failed");
+                      }}
+                    />
                   </Container>
+                  <p className="text-center my-2">or</p>
                   <Container className="text-center">
                     <Button
                       disabled={loading}
@@ -133,9 +164,18 @@ export const Login = () => {
                       <span hidden={!loading}>Wait..</span>
                       <span hidden={loading}>Login</span>
                     </Button>
+
                     <Button variant="danger" onClick={clearFields}>
                       Reset
                     </Button>
+                  </Container>
+                  <Container className="text-center">
+                    <p>
+                      Forgot Password? <Link to={"/"}>click here</Link>
+                    </p>
+                    <p>
+                      Not Registered? <Link to={"/register"}>click here</Link>
+                    </p>
                   </Container>
                 </Form>
               </Card.Body>

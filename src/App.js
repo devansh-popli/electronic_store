@@ -37,6 +37,8 @@ import HomePage from "./pages/users/HomePage";
 import { ProgressBar } from "react-bootstrap";
 import LoadingBar from "react-top-loading-bar";
 import AfterPaymentPage from "./pages/users/AfterPaymentPage";
+import { GoogleOAuthProvider } from "@react-oauth/google";
+
 function App() {
   const [loading, setLoading] = useState(false);
   const [progress, setProgress] = useState(0);
@@ -73,9 +75,9 @@ function App() {
         setLoading(false);
         if (error.code === "ERR_NETWORK") {
           Swal.fire({
-            title:"Network Error",
-            html:"Backend Server is Down",
-            icon:"info"
+            title: "Network Error",
+            html: "Backend Server is Down",
+            icon: "info",
           });
         }
         return Promise.reject(error);
@@ -100,58 +102,67 @@ function App() {
     //     return Promise.reject(error);
     //   }
     // );
-  
   }, []);
   return (
     //setting up routes
-    <UserProvider>
-      <CartContextProvider>
-        <BrowserRouter>
-          <ToastContainer
-            draggable
-            transition={Zoom}
-            position="bottom-center"
-          />
-         <LoadingBar onLoaderFinished={()=>setProgress(0)} color="RGB(82, 113, 255)" progress={progress} waitingTime={1100}  />
-          <CustomNavbar />
-          <Loading show={loading} />
-          <Routes>
-            <Route path="/" element={<Index />} />
-            <Route path="/about" element={<About />} />
-            <Route path="/services" element={<Service />} />
-            <Route path="/store" element={<Store />} />
-            {/* <Route path="/cart" element={<CartSideBar />} /> */}
-            <Route path="/contact" element={<ContactUs />} />
-            <Route path="/login" element={<Login />} />
-            <Route path="/register" element={<Signup />} />
-            <Route path="/store" element={<Store />} />
-            <Route path="/products/:productId" element={<ProductView />} />
-            <Route
-              path="/store/category/products/:categoryId/:categoryTitle"
-              element={<CategoryStorePage />}
+    <GoogleOAuthProvider clientId="1078535299525-htqhsh99nk7pu8ks2qjb5stje9shsa57.apps.googleusercontent.com">
+      <UserProvider>
+        <CartContextProvider>
+          <BrowserRouter>
+            <ToastContainer
+              draggable
+              transition={Zoom}
+              position="bottom-center"
             />
-            <Route path="/users" element={<Dashboard />}>
-              {/* <Route path="home" element={<Index />} /> */}
-              <Route path="profile/:userId" element={<Profile />} />
-              <Route path="about" element={<AboutUser />} />
-              <Route path="orders" element={<Orders />} />
-              <Route path="orders-details" element={<LoadOrders />} />
-              <Route path="orders/payment-success" element={<AfterPaymentPage />} />
-            </Route>
-            <Route path="/admin" element={<AdminDashboard />}>
-              <Route path="home" element={<AdminHome />} />
-              <Route path="add-product" element={<AddProducts />} />
-              <Route path="add-category" element={<AddCategory />} />
-              <Route path="categories" element={<ViewCategory />} />
-              <Route path="products" element={<ViewProducts />} />
-              <Route path="orders" element={<AdminOrders />} />
-              <Route path="users" element={<AdminUsers />} />
-            </Route>
-          </Routes>
-          <Footer/>
-        </BrowserRouter>
-      </CartContextProvider>
-    </UserProvider>
+            <LoadingBar
+              onLoaderFinished={() => setProgress(0)}
+              color="RGB(82, 113, 255)"
+              progress={progress}
+              waitingTime={1100}
+            />
+            <CustomNavbar />
+            <Loading show={loading} />
+            <Routes>
+              <Route path="/" element={<Index />} />
+              <Route path="/about" element={<About />} />
+              <Route path="/services" element={<Service />} />
+              <Route path="/store" element={<Store />} />
+              {/* <Route path="/cart" element={<CartSideBar />} /> */}
+              <Route path="/contact" element={<ContactUs />} />
+              <Route path="/login" element={<Login />} />
+              <Route path="/register" element={<Signup />} />
+              <Route path="/store" element={<Store />} />
+              <Route path="/products/:productId" element={<ProductView />} />
+              <Route
+                path="/store/category/products/:categoryId/:categoryTitle"
+                element={<CategoryStorePage />}
+              />
+              <Route path="/users" element={<Dashboard />}>
+                {/* <Route path="home" element={<Index />} /> */}
+                <Route path="profile/:userId" element={<Profile />} />
+                <Route path="about" element={<AboutUser />} />
+                <Route path="orders" element={<Orders />} />
+                <Route path="orders-details" element={<LoadOrders />} />
+                <Route
+                  path="orders/payment-success"
+                  element={<AfterPaymentPage />}
+                />
+              </Route>
+              <Route path="/admin" element={<AdminDashboard />}>
+                <Route path="home" element={<AdminHome />} />
+                <Route path="add-product" element={<AddProducts />} />
+                <Route path="add-category" element={<AddCategory />} />
+                <Route path="categories" element={<ViewCategory />} />
+                <Route path="products" element={<ViewProducts />} />
+                <Route path="orders" element={<AdminOrders />} />
+                <Route path="users" element={<AdminUsers />} />
+              </Route>
+            </Routes>
+            <Footer />
+          </BrowserRouter>
+        </CartContextProvider>
+      </UserProvider>
+    </GoogleOAuthProvider>
   );
 }
 

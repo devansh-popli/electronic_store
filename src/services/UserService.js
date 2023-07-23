@@ -14,6 +14,11 @@ export const loginUser=(loginData)=>{
         return response.data
     })
 }
+export const loginUserByGoogle=(loginData)=>{
+    return privateAxios.post("/auth/google",loginData).then(response=>{
+        return response.data
+    })
+}
 export const getUserById=(userId)=>{
    return privateAxios.get(`/users/${userId}`,{headers:{
     "Authorization":"Bearer " +getTokenFromLocalStorage()
