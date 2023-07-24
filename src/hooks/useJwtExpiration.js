@@ -4,11 +4,13 @@ import { useContext, useEffect, useState } from "react";
 import Swal from "sweetalert2";
 import { useNavigate } from "react-router-dom";
 import { UserContext } from "../context/UserContext";
+import { CartContext } from "../context/CartContext";
 
 export const useJwtExpiration = () => {
   const [flag, setFlag] = useState(false);
   const navigate = useNavigate();
   const { doLogout } = useContext(UserContext);
+  const { setCart } = useContext(CartContext);
   useEffect(() => {
     const token = getTokenFromLocalStorage();
     try {
