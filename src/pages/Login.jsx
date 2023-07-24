@@ -169,7 +169,7 @@ export const Login = () => {
                       Reset
                     </Button>
                   </Container>
-                  <Container className="text-center">
+                  <Container className="text-center mt-3">
                     <p>
                       Forgot Password? <Link to={"/"}>click here</Link>
                     </p>

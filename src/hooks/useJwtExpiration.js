@@ -8,7 +8,7 @@ import { UserContext } from "../context/UserContext";
 export const useJwtExpiration = () => {
   const [flag, setFlag] = useState(false);
   const navigate = useNavigate();
-  const { logout } = useContext(UserContext);
+  const { doLogout } = useContext(UserContext);
   useEffect(() => {
     const token = getTokenFromLocalStorage();
     try {
@@ -19,7 +19,7 @@ export const useJwtExpiration = () => {
             title: "Session expired Please Login Again",
             icon: "info",
           });
-          logout();
+          doLogout();
           navigate("/login");
           setFlag(true);
         }
