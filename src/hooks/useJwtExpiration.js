@@ -20,6 +20,7 @@ export const useJwtExpiration = () => {
             icon: "info",
           });
           doLogout();
+          setCart({ items: [] });
           navigate("/login");
           setFlag(true);
         }
